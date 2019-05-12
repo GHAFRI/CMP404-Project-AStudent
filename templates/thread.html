@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Students Notes</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/modern-business.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('home') }}">Students Notes</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">welcome {{session['username']}}</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3"><strong>Course: </strong> {{ session['course'] }}</h1>
+
+        <!-- <small>Your points = <strong>{{ score }}</strong></small> -->
+
+
+
+        <br>
+        <br>
+        <hr>
+        <br>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-lg-12 mb-12">
+                <h2>Thread by user: {{ thread.username }}</h2>
+
+
+                <form>
+                    <div class="form-group">
+                        <label for="username">User Name</label>
+                        <input type="text" class="form-control" id="username" value="{{ thread.username }}" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course">User Name</label>
+                        <input type="text" class="form-control" id="course" value="{{ thread.course }}" disabled>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="text">thread Content</label>
+                        <textarea class="form-control" id="text" rows="3" disabled>
+                      {{ thread.text }}
+                  </textarea>
+                    </div>
+                </form>
+
+                {% if thread.username == session['username'] %}
+                <a href="{{ url_for('delete_thread', thread_id=thread.id) }}" class="btn btn-danger">Delete thread</a>
+                {% endif %}
+
+
+
+                <br>
+                <hr>                
+                <h4>Replies</h4>
+                <hr>
+                <br>
+                {% for reply in replies %}
+
+
+                <form>
+                    <div class="form-group">
+                        <label for="username">User Name</label>
+                        <input type="text" class="form-control" id="username" value="{{ reply.username }}" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course">Course Name</label>
+                        <input type="text" class="form-control" id="course" value="{{ reply.course }}" disabled>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="text">reply Content</label>
+                        <textarea class="form-control" id="text" rows="3" disabled>
+                          {{ reply.text }}
+                      </textarea>
+                    </div>
+
+                    {% if reply.username == session['username'] %}
+                    <a href="{{ url_for('delete_thread', thread_id=reply.id) }}" class="btn btn-danger">Delete
+                        reply</a>
+                    {% endif %}
+
+                </form>
+
+                <br>
+                <hr>
+                <br>
+                {% endfor %}
+
+
+                <br>
+                <hr>
+                <br>
+
+
+                <h4>New reply</h4>
+                <form action="{{ url_for('new_reply', reply_id=thread.id) }}" method="POST">
+                    <div class="form-group">
+                        <label for="text">Reply Content</label>
+                        <textarea class="form-control" id="text" name="text" rows="3" ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Reply</button>
+                </form>
+            </div>
+
+
+
+
+
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // $('#newthread').modal({})
+            // $('#newthread').modal({})
+
+
+
+        })
+    </script>
+
+</body>
+
+</html>
